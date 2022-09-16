@@ -1,0 +1,36 @@
+import * as THREE from "../node_modules/three/build/three.module.js";
+import { camerasGUI } from "./gui.js";
+var aspect = window.innerWidth / window.innerHeight;
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+var camera2 = new THREE.PerspectiveCamera(50, 0.5 * aspect, 150, 1000);
+camera2.position.x = camerasGUI.camObserve.position.x;
+camera2.position.z = camerasGUI.camObserve.position.z;
+camera2.position.y = camerasGUI.camObserve.position.y;
+var camera2Helper = new THREE.CameraHelper(camera2);
+scene.add(camera2Helper);
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+var geometry = new THREE.BoxGeometry(20, 20, 20);
+var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+var cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+camera.position.z = 150;
+function animate() {
+    requestAnimationFrame(animate);
+    camera2.position.x = camerasGUI.camObserve.position.x;
+    camera2.position.y = camerasGUI.camObserve.position.y;
+    camera2.position.z = camerasGUI.camObserve.position.z;
+    camera2.far = camerasGUI.camObserve.far;
+    camera2.near = camerasGUI.camObserve.near;
+    camera2.fov = camerasGUI.camObserve.fov;
+    camera2.lookAt(cube.position);
+    camera2.updateProjectionMatrix();
+    camera.position.z = camerasGUI.camRenderZ;
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+}
+;
+animate();
