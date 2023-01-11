@@ -1,17 +1,18 @@
 import * as THREE from '../node_modules/three/src/Three.js';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import { PerspectiveCamera } from "../node_modules/three/src/cameras/PerspectiveCamera.js"; 
+import { PerspectiveCamera } from "../node_modules/three/src/cameras/PerspectiveCamera.js";
+import { Scene } from "../node_modules/three/src/scenes/Scene.js"; 
 import * as Lights from "./lights";
 import * as Cameras from "./cameras";
+import * as Objects from "./objects";
+
 // ------------------------------------------------
 // BASIC SETUP
 // ------------------------------------------------
 
-const ambientColor: number = 0x00FFFF;
-const ambientIntesitiy: number = 1.5;
 
 // Create an empty scene
-var scene: THREE.Scene = new THREE.Scene();
+var scene: Scene = new Scene();
 
 // Create a basic perspective camera
 const camera: PerspectiveCamera = Cameras.getPerspectiveCamera();
@@ -33,25 +34,19 @@ document.body.appendChild( renderer.domElement );
 // ------------------------------------------------
 
 // Create a Cube Mesh with basic material
-const geometry: THREE.BoxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material: THREE.MeshPhongMaterial = new THREE.MeshPhongMaterial( { color: "#FF0000" } );
-const cube: THREE.Mesh = new THREE.Mesh( geometry, material );
 
+// add Scene Objects
+let cube = Objects.addCube(scene);
 
+// add lights
 Lights.addPointLight(scene);
+Lights.addAmbientLight(scene);
+//Lights.addHemisphereLight(scene);
 
-const ambientLight: THREE.AmbientLight = new THREE.AmbientLight( ambientColor, ambientIntesitiy );
-
-
-
-
-console.log(cube.material)
+// add Orbit Controls
 const controls: OrbitControls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 5, 0);
 controls.update();
-// Add cube to Scene
-scene.add( cube );
-scene.add( ambientLight );
 
 // Render Loop
 function render(): void {
