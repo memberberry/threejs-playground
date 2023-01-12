@@ -60,3 +60,34 @@ export function addHemisphereLight( scene: Scene ): HemisphereLight{
     return hemisphereLight;
 
 }
+/*
+export let sunIntensity = 10000;
+export let sunLightColor = "#FFFF99";
+export let sunColor = "#FF5500";
+export let sunDim = new Vector3(20, 64, 32);
+
+export function addSun(scene){
+
+    const pointLight: PointLight = new PointLight( pointLightColor, sunIntensity, 0 );
+    const sphereGeometry = new SphereGeometry(sphereRadius, sphereTilesHoriz, sphereTilesVert);
+    const sphereMaterial = new MeshBasicMaterial({color: sunColor});
+    const sphere = new Mesh( sphereGeometry, sphereMaterial );
+
+    pointLight.position.set(
+        pointLightPosition.x, 
+        pointLightPosition.y, 
+        pointLightPosition.z
+    );
+
+    sphere.position.set(
+        pointLightPosition.x,   
+        pointLightPosition.y,
+        pointLightPosition.z
+    );
+
+    scene.add(sphere);
+    scene.add(pointLight);
+
+    return [pointLight, sphere];
+}
+*/
