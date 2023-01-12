@@ -5,7 +5,7 @@ export let fov: number  = 105;
 export let near: number = 0.1;
 export let far: number  = 1000;
 export let aspect: number = window.innerWidth/window.innerHeight;
-export let cameraPos: Vector3 = new Vector3(0, 5, 10);
+export let cameraPos: Vector3 = new Vector3(0, 0, 10);
 
 
 export function getPerspectiveCamera(): PerspectiveCamera{
