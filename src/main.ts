@@ -1,6 +1,7 @@
-import * as THREE from '../node_modules/three/src/Three.js';
+//import * as THREE from '../node_modules/three/src/Three.js';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import { PerspectiveCamera } from "../node_modules/three/src/cameras/PerspectiveCamera.js";
+import { WebGLRenderer } from "../node_modules/three/src/renderers/WebGLRenderer.js";
 import { Scene } from "../node_modules/three/src/scenes/Scene.js"; 
 import * as Lights from "./lights";
 import * as Cameras from "./cameras";
@@ -18,10 +19,10 @@ var scene: Scene = new Scene();
 const camera: PerspectiveCamera = Cameras.getPerspectiveCamera();
 
 // Create a renderer with Antialiasing
-var renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({antialias:true});
+var renderer: WebGLRenderer = new WebGLRenderer({antialias:true});
 
 // Configure background color
-renderer.setClearColor("#000015");
+renderer.setClearColor("#000008");
 
 // window size
 renderer.setSize( window.innerWidth, window.innerHeight );

@@ -3,36 +3,30 @@
   "version": "0.0.0",
   "description": "A simple project to learn Computer Graphics with ThreeJS and Proper Front end Project structuring/building",
   "main": "src/main.ts",
-  
   "scripts": {
     "test": "echo \"create a test\"",
     "build": "webpack --mode development",
     "start": "webpack serve"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/memberberry/threejs-playground.git"
   },
-
   "author": "roman.schmidtke",
   "license": "ISC",
-
   "bugs": {
     "url": "https://github.com/memberberry/threejs-playground/issues"
   },
-
   "homepage": "https://github.com/memberberry/threejs-playground#readme",
-
   "devDependencies": {
     "five-server": "^0.1.6",
+    "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.4.2",
     "typescript": "^4.8.3",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
-
   "dependencies": {
     "three": "^0.144.0"
   }
