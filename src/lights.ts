@@ -8,13 +8,12 @@ import { HemisphereLight } from "../node_modules/three/src/lights/HemisphereLigh
 import { Scene } from "../node_modules/three/src/scenes/Scene.js";
 
 export let pointLightColor = 0x0000ff;
-export let pointLightPosition = new Vector3(10, 15, 0);
-export let sphereRadius = 1;
-export let sphereTilesHoriz = 32;
-export let sphereTilesVert = 16;
+export let pointLightPosition = new Vector3(10 , 15 , 0 );
+export let pointLightDim = new Vector3(1, 32, 16)
 
-export let ambientIntesitiy = 1;
-export let ambientColor = 0xFFFF00;
+
+export let ambientIntesitiy = 0.2;
+export let ambientColor = 0xFFFFFF;
 
 export let hemisphereIntensity = 1;
 export let skyColor = "#93adff";
@@ -23,7 +22,13 @@ export let groundColor = "#ff001e";
 export function addPointLight( scene: Scene ): [PointLight, Mesh]{
 
     const pointLight: PointLight = new PointLight( pointLightColor, 1000, 0 );
-    const sphereGeometry = new SphereGeometry(sphereRadius, sphereTilesHoriz, sphereTilesVert);
+
+    const sphereGeometry = new SphereGeometry(
+        pointLightDim.x, 
+        pointLightDim.y, 
+        pointLightDim.z
+        );
+
     const sphereMaterial = new MeshBasicMaterial({color: pointLightColor});
     const sphere = new Mesh( sphereGeometry, sphereMaterial );
 
@@ -64,13 +69,13 @@ export function addHemisphereLight( scene: Scene ): HemisphereLight{
 export let sunIntensity = 10000;
 export let sunLightColor = "#FFFF99";
 export let sunColor = "#FF5500";
-export let sunDim = new Vector3(20, 64, 32);
-export let sunPos = new Vector3(0, 0, 0);
+export let sunDim = new Vector3(5, 64, 32);
+export let sunPos = new Vector3(0 , 0 , 0 );
 
 export function addSun(scene): [PointLight, Mesh]{
 
     const pointLight: PointLight = new PointLight( pointLightColor, sunIntensity, 0 );
-    const sphereGeometry = new SphereGeometry(sphereRadius, sphereTilesHoriz, sphereTilesVert);
+    const sphereGeometry = new SphereGeometry(sunDim.x, sunDim.y, sunDim.z);
     const sphereMaterial = new MeshBasicMaterial({color: sunColor});
     const sphere = new Mesh( sphereGeometry, sphereMaterial );
 

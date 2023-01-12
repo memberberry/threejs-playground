@@ -1,17 +1,18 @@
 import { BoxGeometry } from "../node_modules/three/src/geometries/BoxGeometry.js";
-import { MeshPhongMaterial } from "../node_modules/three/src/materials/MeshPhongMaterial.js";
 import { SphereGeometry } from "../node_modules/three/src/geometries/SphereGeometry.js";
+import { RingGeometry } from '../node_modules/three/src/geometries/RingGeometry.js';
+import { MeshPhongMaterial } from "../node_modules/three/src/materials/MeshPhongMaterial.js";
+import { MeshBasicMaterial } from "../node_modules/three/src/materials/MeshBasicMaterial.js";
 import { Mesh } from "../node_modules/three/src/objects/Mesh.js";
 import { Vector3 } from "../node_modules/three/src/math/Vector3.js";
+import { DoubleSide } from '../node_modules/three/src/constants.js';
+
 
 export let cubeColor = "#00FF00";
-export let cubeSize = new Vector3(1, 1, 1);
-
-export let earthDim = new Vector3(5, 32, 16);
-export let earthColor = '#0000FF'
+export let cubeSize = new Vector3(1 , 1 , 1 );
 
 export function addCube(scene){
-
+    
     const geometry: BoxGeometry = new BoxGeometry( cubeSize.x, cubeSize.y, cubeSize.z );
     const material: MeshPhongMaterial = new MeshPhongMaterial( {color: cubeColor} );    
     const cube: Mesh = new Mesh( geometry, material );
@@ -20,9 +21,46 @@ export function addCube(scene){
     
 }
 
-/*
+export let earthDim = new Vector3(1, 32, 16);
+export let earthColor = '#0000FF'
+export let earthStartPos = new Vector3(20, 0 , 0 );
+
 export function addEarth(scene): Mesh{
-    const geometry: SphereGeometry = new SphereGeometry( earthDim.x, earthDim.y, earthDim.x );
-    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: earthColor} )
+
+    const geometry: SphereGeometry = new SphereGeometry( earthDim.x, earthDim.y, earthDim.z );
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: earthColor} );
+
+    const earth: Mesh = new Mesh( geometry, material );
+
+    const orbit: Mesh = addOrbitalRing(earthStartPos.x, earthDim.y * earthStartPos.x, Math.PI * 2, '#999999');
+    earth.position.set(
+
+        earthStartPos.x, 
+        earthStartPos.y, 
+        earthStartPos.z
+
+    );
+    scene.add( orbit );
+    scene.add( earth );
+    return earth;
+
 }
-*/
+
+/**
+ * 
+ * 
+ * @param innerRadius {Number} 
+ * @param thetaSegments {Number} 
+ * @param thetaLength {Number} determines if circles is closed or just a part of a circle
+ * @param color {Hex}
+ */
+
+export function addOrbitalRing( innerRadius, thetaSegments, thetaLength, color ): Mesh{
+
+    const geometry: RingGeometry = new RingGeometry(innerRadius, innerRadius+0.1, thetaSegments, 1, 0,  thetaLength= thetaLength);
+    const material: MeshBasicMaterial = new MeshBasicMaterial( {color: color, side: DoubleSide} );
+    const orbit: Mesh = new Mesh( geometry, material );
+    orbit.rotateOnAxis( new Vector3(1,0,0), Math.PI/2);
+    return orbit;
+
+};
