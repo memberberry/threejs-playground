@@ -11,6 +11,7 @@ import { DoubleSide } from '../node_modules/three/src/constants.js';
 export let cubeColor = "#00FF00";
 export let cubeSize = new Vector3( 1 , 1 , 1 );
 
+
 export function addCube(scene){
     
     const geometry: BoxGeometry = new BoxGeometry( cubeSize.x, cubeSize.y, cubeSize.z );
@@ -28,7 +29,7 @@ export let earthStartPos = new Vector3(20, 0 , 0 );
 export function addEarth(scene): Mesh{
 
     const geometry: SphereGeometry = new SphereGeometry( earthDim.x, earthDim.y, earthDim.z );
-    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: earthColor} );
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: earthColor, shininess: 20, specular: 0x050505} );
 
     const earth: Mesh = new Mesh( geometry, material );
 
@@ -41,7 +42,7 @@ export function addEarth(scene): Mesh{
 
     );
     scene.add( orbit );
-    scene.add( earth );
+    //scene.add( earth );
     return earth;
 
 }
@@ -68,3 +69,5 @@ export function addOrbitalRing( innerRadius, thetaSegments, thetaLength, color )
     return orbit;
 
 };
+
+

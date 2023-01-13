@@ -14,6 +14,9 @@ import { Vector3 } from '../node_modules/three/src/math/Vector3.js';
 // ------------------------------------------------
 export const SCALE = 10;
 
+const planets = [];
+const solarSystem = new THREE.Object3D();
+
 // Create an empty scene
 var scene: Scene = new Scene();
 
@@ -44,26 +47,35 @@ document.body.appendChild( renderer.domElement );
 const sunMesh: Mesh = Lights.addSun(scene);
 const earth: Mesh = Objects.addEarth(scene);
 Lights.addAmbientLight(scene);
-//Lights.addHemisphereLight(scene);
+Lights.addPointLight(scene);
+solarSystem.add(sunMesh);
+solarSystem.add(earth);
+planets.push(sunMesh);
+planets.push(earth);
+planets.push(solarSystem);
 
 // add Orbit Controls
 const controls: OrbitControls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
 
+scene.add(solarSystem);
 // Render Loop
-function render(): void {
+
+// time verwenden bewirkt das sich geschwindigkeit 
+// von Sonnen um eigene Achse und Erde um Sonne nicht gleich sind was realistischer aussieht
+// würde ich nur ...rotation.y += 1 dreht sich Sonne und Erde um Sonne immer genau gleich
+function render(time): void {
+
+    time *= 0.0005;
     requestAnimationFrame( render );
     
-    sunMesh.rotation.x += 0.01;
-    sunMesh.rotation.y += 0.01;
-
-    earth.rotation.x += 0.01;
-    earth.rotation.y += 0.01;
+    planets.forEach(planet => {
+        planet.rotation.y = time;
+    });
 
     //const center = new Vector3(0, 1, 0);
-    
-    //earth.rotateOnWorldAxis( center, Math.PI / 120 );
+    //earth.rotateOnWorldAxis( center, Math.PI );
 
     controls.update();
         
@@ -71,4 +83,4 @@ function render(): void {
     renderer.render(scene, camera);
 };
 
-render();
+requestAnimationFrame( render );
