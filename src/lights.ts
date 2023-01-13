@@ -2,6 +2,7 @@ import { PointLight } from "../node_modules/three/src/lights/PointLight.js";
 import { Vector3 } from "../node_modules/three/src/math/Vector3.js";
 import { SphereGeometry } from "../node_modules/three/src/geometries/SphereGeometry.js";
 import { MeshBasicMaterial } from "../node_modules/three/src/materials/MeshBasicMaterial.js";
+import { MeshPhongMaterial } from "../node_modules/three/src/materials/MeshPhongMaterial.js";
 import { Mesh } from "../node_modules/three/src/objects/Mesh.js";
 import { AmbientLight } from "../node_modules/three/src/lights/AmbientLight.js";
 import { HemisphereLight } from "../node_modules/three/src/lights/HemisphereLight.js";
@@ -68,7 +69,7 @@ export function addHemisphereLight( scene: Scene ): HemisphereLight{
 
 export let sunIntensity = 10000;
 export let sunLightColor = "#FFFF99";
-export let sunColor = "#FF5500";
+export let sunColor = "#FF9900";
 export let sunDim = new Vector3(5, 64, 32);
 export let sunPos = new Vector3(0 , 0 , 0 );
 
@@ -76,7 +77,7 @@ export function addSun(scene): [PointLight, Mesh]{
 
     const pointLight: PointLight = new PointLight( pointLightColor, sunIntensity, 0 );
     const sphereGeometry = new SphereGeometry(sunDim.x, sunDim.y, sunDim.z);
-    const sphereMaterial = new MeshBasicMaterial({color: sunColor});
+    const sphereMaterial = new MeshPhongMaterial({emissive: sunColor});
     const sphere = new Mesh( sphereGeometry, sphereMaterial );
 
     pointLight.position.set(
@@ -94,5 +95,5 @@ export function addSun(scene): [PointLight, Mesh]{
     scene.add(sphere);
     scene.add(pointLight);
 
-    return [pointLight, sphere];
+    return sphere;
 }

@@ -5,13 +5,14 @@ export let fov: number  = 45;
 export let near: number = 0.1;
 export let far: number  = 1000;
 export let aspect: number = window.innerWidth/window.innerHeight;
-export let cameraPos: Vector3 = new Vector3(0 , 0 , 10 );
-
+export let cameraPos: Vector3 = new Vector3(0 , 40 , 40 );
+export let center: Vector3 = new Vector3(0, 0, 0);
 
 export function getPerspectiveCamera(): PerspectiveCamera{
 
     var camera: PerspectiveCamera = new PerspectiveCamera( fov, aspect, near, far );
     camera.position.set( cameraPos.x, cameraPos.y, cameraPos.z );
+    camera.lookAt( center.x, center.y, center.z );
     return camera;
     
 }

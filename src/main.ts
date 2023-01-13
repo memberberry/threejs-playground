@@ -8,7 +8,7 @@ import { WebGLRenderer } from '../node_modules/three/src/renderers/WebGLRenderer
 import * as Lights from './lights';
 import * as Cameras from './cameras';
 import * as Objects from './objects';
-
+import { Vector3 } from '../node_modules/three/src/math/Vector3.js';
 // ------------------------------------------------
 // BASIC SETUP
 // ------------------------------------------------
@@ -41,7 +41,7 @@ document.body.appendChild( renderer.domElement );
 //let cube = Objects.addCube(scene);
 
 // add lights
-const [sunLight, sunMesh]: [PointLight, Mesh] = Lights.addSun(scene);
+const sunMesh: Mesh = Lights.addSun(scene);
 const earth: Mesh = Objects.addEarth(scene);
 Lights.addAmbientLight(scene);
 //Lights.addHemisphereLight(scene);
@@ -61,7 +61,9 @@ function render(): void {
     earth.rotation.x += 0.01;
     earth.rotation.y += 0.01;
 
+    //const center = new Vector3(0, 1, 0);
     
+    //earth.rotateOnWorldAxis( center, Math.PI / 120 );
 
     controls.update();
         

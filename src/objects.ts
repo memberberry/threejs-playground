@@ -9,7 +9,7 @@ import { DoubleSide } from '../node_modules/three/src/constants.js';
 
 
 export let cubeColor = "#00FF00";
-export let cubeSize = new Vector3(1 , 1 , 1 );
+export let cubeSize = new Vector3( 1 , 1 , 1 );
 
 export function addCube(scene){
     
@@ -47,8 +47,6 @@ export function addEarth(scene): Mesh{
 }
 
 /**
- * 
- * 
  * @param innerRadius {Number} 
  * @param thetaSegments {Number} 
  * @param thetaLength {Number} determines if circles is closed or just a part of a circle
@@ -57,10 +55,16 @@ export function addEarth(scene): Mesh{
 
 export function addOrbitalRing( innerRadius, thetaSegments, thetaLength, color ): Mesh{
 
-    const geometry: RingGeometry = new RingGeometry(innerRadius, innerRadius+0.1, thetaSegments, 1, 0,  thetaLength= thetaLength);
+    const geometry: RingGeometry = new RingGeometry(
+        innerRadius, 
+        innerRadius + 0.1, 
+        thetaSegments, 1, 0,  
+        thetaLength= thetaLength);
+
     const material: MeshBasicMaterial = new MeshBasicMaterial( {color: color, side: DoubleSide} );
     const orbit: Mesh = new Mesh( geometry, material );
     orbit.rotateOnAxis( new Vector3(1,0,0), Math.PI/2);
+
     return orbit;
 
 };
