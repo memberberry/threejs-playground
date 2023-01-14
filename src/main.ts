@@ -13,9 +13,12 @@ import { Vector3 } from '../node_modules/three/src/math/Vector3.js';
 // BASIC SETUP
 // ------------------------------------------------
 export const SCALE = 10;
-
+const earthOrbitRadius = 20;
+const moonOrbitRadius = 3;
 const planets = [];
 const solarSystem = new THREE.Object3D();
+const earthOrbit = new THREE.Object3D();
+const moonOrbit = new THREE.Object3D();
 
 // Create an empty scene
 var scene: Scene = new Scene();
@@ -46,13 +49,29 @@ document.body.appendChild( renderer.domElement );
 // add lights
 const sunMesh: Mesh = Lights.addSun(scene);
 const earth: Mesh = Objects.addEarth(scene);
+const moon: Mesh = Objects.addMoon(scene);
+console.log(earth.geometry);
+earthOrbit.position.x = earthOrbitRadius;
+moonOrbit.position.x = moonOrbitRadius;
+const orbitalRingEarth: Mesh = Objects.addOrbitalRing(earthOrbitRadius, earth.geometry.parameters.widthSegments * earthOrbitRadius, Math.PI * 2, '#999999');
+
 Lights.addAmbientLight(scene);
 Lights.addPointLight(scene);
+
+moonOrbit.add(moon);
+earthOrbit.add(moonOrbit);
+earthOrbit.add(earth);
+solarSystem.add(earthOrbit);
 solarSystem.add(sunMesh);
-solarSystem.add(earth);
+
 planets.push(sunMesh);
 planets.push(earth);
+planets.push(earthOrbit);
+planets.push(moonOrbit);
 planets.push(solarSystem);
+planets.push(moon);
+
+scene.add(orbitalRingEarth);
 
 // add Orbit Controls
 const controls: OrbitControls = new OrbitControls(camera, renderer.domElement);

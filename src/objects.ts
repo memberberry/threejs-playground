@@ -24,7 +24,6 @@ export function addCube(scene){
 
 export let earthDim = new Vector3(1, 32, 16);
 export let earthColor = '#0000FF'
-export let earthStartPos = new Vector3(20, 0 , 0 );
 
 export function addEarth(scene): Mesh{
 
@@ -33,18 +32,24 @@ export function addEarth(scene): Mesh{
 
     const earth: Mesh = new Mesh( geometry, material );
 
-    const orbit: Mesh = addOrbitalRing(earthStartPos.x, earthDim.y * earthStartPos.x, Math.PI * 2, '#999999');
-    earth.position.set(
-
-        earthStartPos.x, 
-        earthStartPos.y, 
-        earthStartPos.z
-
-    );
-    scene.add( orbit );
     //scene.add( earth );
     return earth;
 
+}
+
+export let moonDim = new Vector3(0.3, 16, 8);
+export let moonColor = 0x888888
+
+export function addMoon(scene): Mesh{
+
+    const geometry: SphereGeometry = new SphereGeometry( moonDim.x, moonDim.y, moonDim.z );
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: moonColor, shininess: 5, specular: 0x050505} );
+
+    const moon: Mesh = new Mesh( geometry, material );
+
+    //scene.add( earth );
+    return moon;
+    
 }
 
 /**
