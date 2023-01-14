@@ -9,10 +9,15 @@ import * as Lights from './lights';
 import * as Cameras from './cameras';
 import * as Objects from './objects';
 import { Vector3 } from '../node_modules/three/src/math/Vector3.js';
+import * as GUI from './gui';
 // ------------------------------------------------
 // BASIC SETUP
 // ------------------------------------------------
 export const SCALE = 10;
+const OrbitRadius = {
+    earth: 20,
+    moon: 3
+}
 const earthOrbitRadius = 20;
 const moonOrbitRadius = 3;
 const planets = [];
@@ -37,23 +42,15 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 // Append Renderer to DOM
 document.body.appendChild( renderer.domElement );
 
-// ------------------------------------------------
-// FUN STARTS HERE
-// ------------------------------------------------
+let gui = GUI.addGUI();
 
-// Create a Cube Mesh with basic material
-
-// add Scene Objects
-//let cube = Objects.addCube(scene);
-
-// add lights
 const sunMesh: Mesh = Lights.addSun(scene);
 const earth: Mesh = Objects.addEarth(scene);
 const moon: Mesh = Objects.addMoon(scene);
 console.log(earth.geometry);
 earthOrbit.position.x = earthOrbitRadius;
 moonOrbit.position.x = moonOrbitRadius;
-const orbitalRingEarth: Mesh = Objects.addOrbitalRing(earthOrbitRadius, earth.geometry.parameters.widthSegments * earthOrbitRadius, Math.PI * 2, '#999999');
+//const orbitalRingEarth: Mesh = Objects.addOrbitalRing( earthOrbitRadius, earth.geometry.parameters.widthSegments * earthOrbitRadius, Math.PI * 2, '#999999');
 
 Lights.addAmbientLight(scene);
 Lights.addPointLight(scene);
@@ -71,13 +68,14 @@ planets.push(moonOrbit);
 planets.push(solarSystem);
 planets.push(moon);
 
-scene.add(orbitalRingEarth);
+gui.add(OrbitRadius, 'earth', sunMesh.geometry.parameters.radius, sunMesh.geometry.parameters.radius * 10).name('Radius Earth Orbit');
+gui.add(OrbitRadius, 'moon', earth.geometry.parameters.radius, earth.geometry.parameters.radius * 10).name('Radius Moon Orbit');
+//scene.add(orbitalRingEarth);
 
 // add Orbit Controls
 const controls: OrbitControls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
-
 scene.add(solarSystem);
 // Render Loop
 
@@ -95,6 +93,9 @@ function render(time): void {
 
     //const center = new Vector3(0, 1, 0);
     //earth.rotateOnWorldAxis( center, Math.PI );
+    earthOrbit.position.x = OrbitRadius.earth;
+    moonOrbit.position.x = OrbitRadius.moon;
+    //moon.geometry.setAttribute('radius', OrbitRadius.moon);
 
     controls.update();
         

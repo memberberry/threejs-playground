@@ -47,7 +47,6 @@ export function addMoon(scene): Mesh{
 
     const moon: Mesh = new Mesh( geometry, material );
 
-    //scene.add( earth );
     return moon;
     
 }
@@ -69,7 +68,7 @@ export function addOrbitalRing( innerRadius, thetaSegments, thetaLength, color )
 
     const material: MeshBasicMaterial = new MeshBasicMaterial( {color: color, side: DoubleSide} );
     const orbit: Mesh = new Mesh( geometry, material );
-    orbit.rotateOnAxis( new Vector3(1,0,0), Math.PI/2);
+    orbit.rotateOnAxis( new Vector3(1,0,0), Math.PI/2 );
 
     return orbit;
 
