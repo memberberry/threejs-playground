@@ -24,6 +24,14 @@ module.exports = {
           "sass-loader",
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader'
+          },
+        ],
+      }
     ],
   },
   resolve: {
@@ -47,7 +55,7 @@ module.exports = {
 
  
   devServer: {
-    static: path.join(__dirname, 'dist'),
+    static: ['dist'],
     compress: true,
     port: 4000,
   },

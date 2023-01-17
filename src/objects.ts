@@ -1,12 +1,13 @@
-import { BoxGeometry } from "../node_modules/three/src/geometries/BoxGeometry.js";
-import { SphereGeometry } from "../node_modules/three/src/geometries/SphereGeometry.js";
-import { RingGeometry } from '../node_modules/three/src/geometries/RingGeometry.js';
-import { MeshPhongMaterial } from "../node_modules/three/src/materials/MeshPhongMaterial.js";
-import { MeshBasicMaterial } from "../node_modules/three/src/materials/MeshBasicMaterial.js";
-import { Mesh } from "../node_modules/three/src/objects/Mesh.js";
-import { Vector3 } from "../node_modules/three/src/math/Vector3.js";
-import { DoubleSide } from '../node_modules/three/src/constants.js';
-
+import { BoxGeometry } from "three/src/geometries/BoxGeometry";
+import { SphereGeometry } from "three/src/geometries/SphereGeometry";
+import { RingGeometry } from 'three/src/geometries/RingGeometry';
+import { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial";
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial";
+import { Mesh } from "three/src/objects/Mesh";
+import { Vector3 } from "three/src/math/Vector3";
+import { DoubleSide } from 'three/src/constants';
+import { TextureLoader } from 'three/src/loaders/TextureLoader';
+//import texture from './assets/earth_texture_map.jpg';
 
 export let cubeColor = "#00FF00";
 export let cubeSize = new Vector3( 1 , 1 , 1 );
@@ -26,9 +27,14 @@ export let earthDim = new Vector3(1, 32, 16);
 export let earthColor = '#0000FF'
 
 export function addEarth(scene): Mesh{
-
+    //const textureLoader = new TextureLoader();
+    //const texture = textureLoader.load("../assets/earth_texture_map.jpg");
     const geometry: SphereGeometry = new SphereGeometry( earthDim.x, earthDim.y, earthDim.z );
-    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: earthColor, shininess: 20, specular: 0x050505} );
+    // shininess erzeugt einen großen fleck in der Farbe die bei specular gesetzt ist.
+    // dieser Fleck ist immer Sichtbar von jedem Winkel 
+    // und er erzeugt in mitten dieses Flecks einen weißen Punkt der dann in Richtung Licht leutet oder eben nicht da ist
+    // verstehe das konzept nicht
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: 0x000000, specular: 0x0000ff, shininess: 10} );
 
     const earth: Mesh = new Mesh( geometry, material );
 

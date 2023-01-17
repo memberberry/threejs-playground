@@ -1,18 +1,22 @@
-import * as THREE from '../node_modules/three/src/Three.js';
-import { OrbitControls }        from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import { PerspectiveCamera }    from '../node_modules/three/src/cameras/PerspectiveCamera.js';
-import { Scene }                from '../node_modules/three/src/scenes/Scene.js';
-import { PointLight }           from '../node_modules/three/src/lights/PointLight.js'; 
-import { Mesh } from '../node_modules/three/src/objects/Mesh.js';
-import { WebGLRenderer } from '../node_modules/three/src/renderers/WebGLRenderer.js';
-import * as Lights from './lights';
+import * as THREE               from 'three';
+import { OrbitControls }        from 'three/examples/jsm/controls/OrbitControls';
+import { PerspectiveCamera }    from 'three/src/cameras/PerspectiveCamera';
+import { Scene }                from 'three/src/scenes/Scene';
+import { PointLight }           from 'three/src/lights/PointLight'; 
+import { Mesh }                 from 'three/src/objects/Mesh';
+import { WebGLRenderer }        from 'three/src/renderers/WebGLRenderer';
+import { Vector3 }              from 'three/src/math/Vector3';
+
+import * as Lights  from './lights';
 import * as Cameras from './cameras';
 import * as Objects from './objects';
-import { Vector3 } from '../node_modules/three/src/math/Vector3.js';
-import * as GUI from './gui';
+import * as GUI     from './gui';
+
+
 // ------------------------------------------------
 // BASIC SETUP
 // ------------------------------------------------
+
 export const SCALE = 10;
 const OrbitRadius = {
     earth: 20,
@@ -42,10 +46,16 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 // Append Renderer to DOM
 document.body.appendChild( renderer.domElement );
 
+
 let gui = GUI.addGUI();
 
-const sunMesh: Mesh = Lights.addSun(scene);
-const earth: Mesh = Objects.addEarth(scene);
+// cannot use type notation :Mesh with attributes. They have to by of type "any" which they are if not directly initialized
+// sunMesh.geometry.parameters is not part of the API but part of the compiled sunMesh.geometry object so TS compiler is complaining it does not exist. 
+// If type of sunMesh is any, typescript does not care apparently
+
+let sunMesh, earth;
+sunMesh = Lights.addSun(scene);
+earth = Objects.addEarth(scene);
 const moon: Mesh = Objects.addMoon(scene);
 console.log(earth.geometry);
 earthOrbit.position.x = earthOrbitRadius;
@@ -67,7 +77,7 @@ planets.push(earthOrbit);
 planets.push(moonOrbit);
 planets.push(solarSystem);
 planets.push(moon);
-
+console.log("sun radius:", sunMesh.geometry);
 gui.add(OrbitRadius, 'earth', sunMesh.geometry.parameters.radius, sunMesh.geometry.parameters.radius * 10).name('Radius Earth Orbit');
 gui.add(OrbitRadius, 'moon', earth.geometry.parameters.radius, earth.geometry.parameters.radius * 10).name('Radius Moon Orbit');
 //scene.add(orbitalRingEarth);
@@ -90,12 +100,9 @@ function render(time): void {
     planets.forEach(planet => {
         planet.rotation.y = time;
     });
-
-    //const center = new Vector3(0, 1, 0);
-    //earth.rotateOnWorldAxis( center, Math.PI );
+    
     earthOrbit.position.x = OrbitRadius.earth;
     moonOrbit.position.x = OrbitRadius.moon;
-    //moon.geometry.setAttribute('radius', OrbitRadius.moon);
 
     controls.update();
         

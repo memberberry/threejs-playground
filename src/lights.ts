@@ -1,12 +1,12 @@
-import { PointLight } from "../node_modules/three/src/lights/PointLight.js";
-import { Vector3 } from "../node_modules/three/src/math/Vector3.js";
-import { SphereGeometry } from "../node_modules/three/src/geometries/SphereGeometry.js";
-import { MeshBasicMaterial } from "../node_modules/three/src/materials/MeshBasicMaterial.js";
-import { MeshPhongMaterial } from "../node_modules/three/src/materials/MeshPhongMaterial.js";
-import { Mesh } from "../node_modules/three/src/objects/Mesh.js";
-import { AmbientLight } from "../node_modules/three/src/lights/AmbientLight.js";
-import { HemisphereLight } from "../node_modules/three/src/lights/HemisphereLight.js";
-import { Scene } from "../node_modules/three/src/scenes/Scene.js";
+import { PointLight }           from "three/src/lights/PointLight";
+import { Vector3 }              from "three/src/math/Vector3";
+import { SphereGeometry }       from "three/src/geometries/SphereGeometry";
+import { MeshBasicMaterial }    from "three/src/materials/MeshBasicMaterial";
+import { MeshPhongMaterial }    from "three/src/materials/MeshPhongMaterial";
+import { Mesh }                 from "three/src/objects/Mesh";
+import { AmbientLight }         from "three/src/lights/AmbientLight";
+import { HemisphereLight }      from "three/src/lights/HemisphereLight";
+import { Scene }                from "three/src/scenes/Scene";
 import { SCALE } from "./main";
 
 
@@ -22,7 +22,7 @@ export let hemisphereIntensity = 1;
 export let skyColor = "#93adff";
 export let groundColor = "#ff001e";
 
-export let sunIntensity = 100;
+export let sunIntensity = 1000;
 export let sunLightColor = "#FFFF99";
 export let sunColor = "#FF9900";
 export let sunDim = new Vector3(5, 12, 6);
@@ -37,7 +37,7 @@ export function addPointLight( scene: Scene ): PointLight{
         sunPos.z
     );
     scene.add(pointLight);
-    return PointLight;
+    return pointLight;
 }
 
 export function addAmbientLight( scene: Scene ): AmbientLight{

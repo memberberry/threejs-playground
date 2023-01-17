@@ -1,4 +1,4 @@
-import * as dat from '../node_modules/dat.gui/src/dat/index.js';
+import * as dat from 'dat.gui';
 
 export function addGUI(){
     const gui = new dat.GUI();
