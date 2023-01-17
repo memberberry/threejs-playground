@@ -6,11 +6,14 @@ What
     * earth orbiting sun speed != sun rotation speed by using time*= value in render function
     * add Moon (check out tutorial below)
     * finish scenegraph tutorial https://r105.threejsfundamentals.org/threejs/lessons/threejs-scenegraph.html ) 
+    * changed relative to general paths for modules "../node_modules/three/..." -> "three" or "three/..."
+    * added three.d.ts files for all modules, installed types package from @types/three which will be auto included if path resolution is general and not relative. This means three js is available as three.ts which means there is now proper code suggestion and completion. Hurray 
+      also added index.d.ts declaration file to the assets/ which declares the *.jpg files as modules so ts is not complaining when importing images
 
 * last update: tried to add Orbits but the rings are not drawn
 * next:
     * textures  https://r105.threejsfundamentals.org/threejs/lessons/threejs-textures.html
-        could not figure out how to load textures. When I add it via TextureLoader() it throws 404 and if I add via import ... with a file-loader configured in webpack it gives issues in typescript that such module is not defined or whatever
+        
 
 * ideas:
     * sun glowing              /
