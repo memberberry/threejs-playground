@@ -19,7 +19,7 @@ import * as GUI     from './gui';
 
 export const SCALE = 10;
 const OrbitRadius = {
-    earth: 20,
+    earth: 30,
     moon: 3
 }
 const earthOrbitRadius = 20;
@@ -61,7 +61,7 @@ console.log(earth.geometry);
 earthOrbit.position.x = earthOrbitRadius;
 moonOrbit.position.x = moonOrbitRadius;
 //const orbitalRingEarth: Mesh = Objects.addOrbitalRing( earthOrbitRadius, earth.geometry.parameters.widthSegments * earthOrbitRadius, Math.PI * 2, '#999999');
-
+let cube = Objects.addCube(scene);
 Lights.addAmbientLight(scene);
 Lights.addPointLight(scene);
 

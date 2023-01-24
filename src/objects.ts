@@ -7,7 +7,7 @@ import { Mesh } from "three/src/objects/Mesh";
 import { Vector3 } from "three/src/math/Vector3";
 import { DoubleSide } from 'three/src/constants';
 import { TextureLoader } from 'three/src/loaders/TextureLoader';
-//import texture from './assets/earth_texture_map.jpg';
+import textureImport from './assets/earth_texture_map.jpg';
 
 export let cubeColor = "#00FF00";
 export let cubeSize = new Vector3( 1 , 1 , 1 );
@@ -16,8 +16,11 @@ export let cubeSize = new Vector3( 1 , 1 , 1 );
 export function addCube(scene){
     
     const geometry: BoxGeometry = new BoxGeometry( cubeSize.x, cubeSize.y, cubeSize.z );
-    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: cubeColor} );    
+    let textureLoader = new TextureLoader();
+    let texture = textureLoader.load(textureImport);
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: cubeColor, map: texture} );    
     const cube: Mesh = new Mesh( geometry, material );
+    cube.position.set( 10,10,10 );
     scene.add( cube );
     return cube;
     
@@ -34,7 +37,9 @@ export function addEarth(scene): Mesh{
     // dieser Fleck ist immer Sichtbar von jedem Winkel 
     // und er erzeugt in mitten dieses Flecks einen weißen Punkt der dann in Richtung Licht leutet oder eben nicht da ist
     // verstehe das konzept nicht
-    const material: MeshPhongMaterial = new MeshPhongMaterial( {color: 0x000000, specular: 0x0000ff, shininess: 10} );
+    let textureLoader = new TextureLoader();
+    let texture = textureLoader.load(textureImport);
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {map: texture,specular: 10, shininess: 100} );
 
     const earth: Mesh = new Mesh( geometry, material );
 
@@ -70,11 +75,12 @@ export function addOrbitalRing( innerRadius, thetaSegments, thetaLength, color )
         innerRadius, 
         innerRadius + 0.1, 
         thetaSegments, 1, 0,  
-        thetaLength= thetaLength);
+        thetaLength= thetaLength
+    );
 
-    const material: MeshBasicMaterial = new MeshBasicMaterial( {color: color, side: DoubleSide} );
+    const material: MeshBasicMaterial = new MeshBasicMaterial({ color: color, side: DoubleSide });
     const orbit: Mesh = new Mesh( geometry, material );
-    orbit.rotateOnAxis( new Vector3(1,0,0), Math.PI/2 );
+    orbit.rotateOnAxis( new Vector3( 1,0,0 ), Math.PI/2 );
 
     return orbit;
 

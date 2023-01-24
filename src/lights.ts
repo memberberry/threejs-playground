@@ -15,14 +15,14 @@ export let pointLightPosition = new Vector3(10 , 15 , 0 );
 export let pointLightDim = new Vector3(1, 32, 16)
 
 
-export let ambientIntesitiy = 0.2;
+export let ambientIntesitiy = 0.3;
 export let ambientColor = 0xFFFFFF;
 
 export let hemisphereIntensity = 1;
 export let skyColor = "#93adff";
 export let groundColor = "#ff001e";
 
-export let sunIntensity = 1000;
+export let sunIntensity = 100;
 export let sunLightColor = "#FFFF99";
 export let sunColor = "#FF9900";
 export let sunDim = new Vector3(5, 12, 6);
