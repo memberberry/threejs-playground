@@ -22,7 +22,7 @@ export let hemisphereIntensity = 1;
 export let skyColor = "#93adff";
 export let groundColor = "#ff001e";
 
-export let sunIntensity = 100;
+export let sunIntensity = 1;
 export let sunLightColor = "#FFFF99";
 export let sunColor = "#FF9900";
 export let sunDim = new Vector3(5, 12, 6);

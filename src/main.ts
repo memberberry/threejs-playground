@@ -18,9 +18,13 @@ import * as GUI     from './gui';
 // ------------------------------------------------
 
 export const SCALE = 10;
-const OrbitRadius = {
-    earth: 30,
-    moon: 3
+const GUIValues = {
+    pauseRotation : false,
+    sunIntensity: 1,
+    ambientIntensity: 0.1,
+    earthSpecular: 0x0000ff,
+    earthShininess: 1
+    
 }
 const earthOrbitRadius = 20;
 const moonOrbitRadius = 3;
@@ -62,8 +66,8 @@ earthOrbit.position.x = earthOrbitRadius;
 moonOrbit.position.x = moonOrbitRadius;
 //const orbitalRingEarth: Mesh = Objects.addOrbitalRing( earthOrbitRadius, earth.geometry.parameters.widthSegments * earthOrbitRadius, Math.PI * 2, '#999999');
 let cube = Objects.addCube(scene);
-Lights.addAmbientLight(scene);
-Lights.addPointLight(scene);
+let spaceBaseLight = Lights.addAmbientLight(scene);
+let sunLight = Lights.addPointLight(scene);
 
 moonOrbit.add(moon);
 earthOrbit.add(moonOrbit);
@@ -78,8 +82,13 @@ planets.push(moonOrbit);
 planets.push(solarSystem);
 planets.push(moon);
 console.log("sun radius:", sunMesh.geometry);
-gui.add(OrbitRadius, 'earth', sunMesh.geometry.parameters.radius, sunMesh.geometry.parameters.radius * 10).name('Radius Earth Orbit');
-gui.add(OrbitRadius, 'moon', earth.geometry.parameters.radius, earth.geometry.parameters.radius * 10).name('Radius Moon Orbit');
+
+gui.add(GUIValues, 'pauseRotation').name('Pause Rotation');
+gui.add(GUIValues, 'sunIntensity', 1, 10).name('Sun Intensity');
+gui.addColor(GUIValues, 'earthSpecular').name("Earth's Specularity");
+gui.add(GUIValues, 'earthShininess', 1, 1000).name("Earth's Shininess");
+gui.add(GUIValues, 'ambientIntensity', 0.1, 1).name("Ambient Light Intensity");
+
 //scene.add(orbitalRingEarth);
 
 // add Orbit Controls
@@ -96,13 +105,16 @@ function render(time): void {
 
     time *= 0.0005;
     requestAnimationFrame( render );
-    
-    planets.forEach(planet => {
-        planet.rotation.y = time;
-    });
-    
-    earthOrbit.position.x = OrbitRadius.earth;
-    moonOrbit.position.x = OrbitRadius.moon;
+
+    sunLight.intensity = GUIValues.sunIntensity;
+    spaceBaseLight.intensity = GUIValues.ambientIntensity;
+
+    if( !GUIValues.pauseRotation ){
+        planets.forEach(planet => {
+            planet.rotation.y = time;
+        });
+    }
+        
 
     controls.update();
         
