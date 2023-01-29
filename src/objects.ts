@@ -28,6 +28,8 @@ export function addCube(scene){
 
 export let earthDim = new Vector3(1, 32, 16);
 export let earthColor = '#0000FF'
+export const earthSpecular = 0x0000ff;
+export const earthShininess = 1;
 
 export function addEarth(scene): Mesh{
     //const textureLoader = new TextureLoader();
@@ -39,7 +41,7 @@ export function addEarth(scene): Mesh{
     // verstehe das konzept nicht
     let textureLoader = new TextureLoader();
     let texture = textureLoader.load(textureImport);
-    const material: MeshPhongMaterial = new MeshPhongMaterial( {map: texture,specular: 10, shininess: 100} );
+    const material: MeshPhongMaterial = new MeshPhongMaterial( {map: texture, specular: earthSpecular, shininess: earthShininess} );
 
     const earth: Mesh = new Mesh( geometry, material );
 

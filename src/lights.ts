@@ -3,11 +3,11 @@ import { Vector3 }              from "three/src/math/Vector3";
 import { SphereGeometry }       from "three/src/geometries/SphereGeometry";
 import { MeshBasicMaterial }    from "three/src/materials/MeshBasicMaterial";
 import { MeshPhongMaterial }    from "three/src/materials/MeshPhongMaterial";
+import { ShaderMaterial }       from "three/src/materials/ShaderMaterial";
 import { Mesh }                 from "three/src/objects/Mesh";
 import { AmbientLight }         from "three/src/lights/AmbientLight";
 import { HemisphereLight }      from "three/src/lights/HemisphereLight";
 import { Scene }                from "three/src/scenes/Scene";
-import { SCALE } from "./main";
 
 
 export let pointLightColor = 0x0000ff;
@@ -22,7 +22,7 @@ export let hemisphereIntensity = 1;
 export let skyColor = "#93adff";
 export let groundColor = "#ff001e";
 
-export let sunIntensity = 1;
+export let sunIntensity = 2.5;
 export let sunLightColor = "#FFFF99";
 export let sunColor = "#FF9900";
 export let sunDim = new Vector3(5, 12, 6);
@@ -58,9 +58,17 @@ export function addHemisphereLight( scene: Scene ): HemisphereLight{
 
 
 export function addSun(scene): Mesh{
+    
+    /*
+    const shaderMaterial = new ShaderMaterial( {
 
-    const sphereGeometry = new SphereGeometry(sunDim.x, sunDim.y, sunDim.z);
-    const sphereMaterial = new MeshPhongMaterial({emissive: sunColor});
+        vertexShader: document.getElementById( 'vertexShader' ).textContent,
+        fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+
+    } );
+    */
+    const sphereGeometry: SphereGeometry = new SphereGeometry(sunDim.x, sunDim.y, sunDim.z);
+    const sphereMaterial: MeshPhongMaterial = new MeshPhongMaterial({emissive: sunColor});
     const sphere = new Mesh( sphereGeometry, sphereMaterial );
     
 

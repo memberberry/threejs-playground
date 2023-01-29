@@ -11,27 +11,23 @@ import * as Lights  from './lights';
 import * as Cameras from './cameras';
 import * as Objects from './objects';
 import * as GUI     from './gui';
-
+import { BufferGeometry, MeshPhongMaterial } from 'three';
+import { customGUI } from './gui';
 
 // ------------------------------------------------
 // BASIC SETUP
 // ------------------------------------------------
 
-export const SCALE = 10;
-const GUIValues = {
-    pauseRotation : false,
-    sunIntensity: 1,
-    ambientIntensity: 0.1,
-    earthSpecular: 0x0000ff,
-    earthShininess: 1
-    
-}
 const earthOrbitRadius = 20;
 const moonOrbitRadius = 3;
 const planets = [];
 const solarSystem = new THREE.Object3D();
 const earthOrbit = new THREE.Object3D();
 const moonOrbit = new THREE.Object3D();
+
+let gui = GUI.initGUI();
+
+
 
 // Create an empty scene
 var scene: Scene = new Scene();
@@ -51,15 +47,14 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 
-let gui = GUI.addGUI();
 
 // cannot use type notation :Mesh with attributes. They have to by of type "any" which they are if not directly initialized
 // sunMesh.geometry.parameters is not part of the API but part of the compiled sunMesh.geometry object so TS compiler is complaining it does not exist. 
 // If type of sunMesh is any, typescript does not care apparently
 
-let sunMesh, earth;
-sunMesh = Lights.addSun(scene);
-earth = Objects.addEarth(scene);
+let sunMesh = Lights.addSun(scene);
+let earth = Objects.addEarth(scene);
+console.log(earth);
 const moon: Mesh = Objects.addMoon(scene);
 console.log(earth.geometry);
 earthOrbit.position.x = earthOrbitRadius;
@@ -68,6 +63,7 @@ moonOrbit.position.x = moonOrbitRadius;
 let cube = Objects.addCube(scene);
 let spaceBaseLight = Lights.addAmbientLight(scene);
 let sunLight = Lights.addPointLight(scene);
+console.log(earth.material);
 
 moonOrbit.add(moon);
 earthOrbit.add(moonOrbit);
@@ -83,11 +79,6 @@ planets.push(solarSystem);
 planets.push(moon);
 console.log("sun radius:", sunMesh.geometry);
 
-gui.add(GUIValues, 'pauseRotation').name('Pause Rotation');
-gui.add(GUIValues, 'sunIntensity', 1, 10).name('Sun Intensity');
-gui.addColor(GUIValues, 'earthSpecular').name("Earth's Specularity");
-gui.add(GUIValues, 'earthShininess', 1, 1000).name("Earth's Shininess");
-gui.add(GUIValues, 'ambientIntensity', 0.1, 1).name("Ambient Light Intensity");
 
 //scene.add(orbitalRingEarth);
 
@@ -106,15 +97,17 @@ function render(time): void {
     time *= 0.0005;
     requestAnimationFrame( render );
 
-    sunLight.intensity = GUIValues.sunIntensity;
-    spaceBaseLight.intensity = GUIValues.ambientIntensity;
+    sunLight.intensity = gui.values.sunIntensity;
+    spaceBaseLight.intensity = gui.values.ambientIntensity;
+    (<THREE.MeshPhongMaterial>earth.material).shininess = gui.values.earthShininess;    
+    (<THREE.MeshPhongMaterial>earth.material).specular = new THREE.Color(gui.values.earthSpecular);
 
-    if( !GUIValues.pauseRotation ){
+    if( !(<customGUI>gui.values).pauseRotation ){
         planets.forEach(planet => {
             planet.rotation.y = time;
         });
     }
-        
+    
 
     controls.update();
         
