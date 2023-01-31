@@ -11,7 +11,7 @@ import * as Lights  from './lights';
 import * as Cameras from './cameras';
 import * as Objects from './objects';
 import * as GUI     from './gui';
-import { BufferGeometry, MeshPhongMaterial } from 'three';
+import { BufferGeometry, Clock, MeshPhongMaterial } from 'three';
 import { customGUI } from './gui';
 
 // ------------------------------------------------
@@ -46,13 +46,13 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 // Append Renderer to DOM
 document.body.appendChild( renderer.domElement );
 
-
+const clock = new THREE.Clock();
 
 // cannot use type notation :Mesh with attributes. They have to by of type "any" which they are if not directly initialized
 // sunMesh.geometry.parameters is not part of the API but part of the compiled sunMesh.geometry object so TS compiler is complaining it does not exist. 
 // If type of sunMesh is any, typescript does not care apparently
 
-let sunMesh = Lights.addSun(scene);
+let [sunMesh, glsl_uniforms] = Lights.addSun(scene);
 let earth = Objects.addEarth(scene);
 console.log(earth);
 const moon: Mesh = Objects.addMoon(scene);
@@ -89,12 +89,14 @@ controls.update();
 scene.add(solarSystem);
 // Render Loop
 
+
+
 // time verwenden bewirkt das sich geschwindigkeit 
 // von Sonnen um eigene Achse und Erde um Sonne nicht gleich sind was realistischer aussieht
 // würde ich nur ...rotation.y += 1 dreht sich Sonne und Erde um Sonne immer genau gleich
 function render(time): void {
 
-    time *= 0.0005;
+    time *= 0.0002;
     requestAnimationFrame( render );
 
     sunLight.intensity = gui.values.sunIntensity;
@@ -107,12 +109,24 @@ function render(time): void {
             planet.rotation.y = time;
         });
     }
-    
+    const delta = 5 * clock.getDelta();
+    glsl_uniforms['time'].value += 0.2 * delta;
 
     controls.update();
-        
+
+    window.addEventListener( 'resize', onWindowResize );
+
     // Render the scene
     renderer.render(scene, camera);
 };
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
 
 requestAnimationFrame( render );
